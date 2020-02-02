@@ -1,0 +1,20 @@
+{
+  "name": "discot",
+  "version": "1.0.0",
+  "description": "Simple discord bot creation framework.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CorentinTh/discot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CorentinTh/discot/issues"
+  },
+  "homepage": "https://github.com/CorentinTh/discot#readme"
+}
