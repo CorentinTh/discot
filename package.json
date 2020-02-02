@@ -2,9 +2,11 @@
   "name": "discot",
   "version": "1.0.0",
   "description": "Simple discord bot creation framework.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "build": "tsc",
+    "test": "jest",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/CorentinTh/discot/issues"
   },
-  "homepage": "https://github.com/CorentinTh/discot#readme"
+  "homepage": "https://github.com/CorentinTh/discot#readme",
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "@types/node": "^13.7.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
 }
