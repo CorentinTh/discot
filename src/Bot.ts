@@ -11,7 +11,7 @@ export class Bot extends Client {
     config: DeepRequired<BotConfig>;
     commands: Command[] = [];
 
-    constructor(config: BotConfig = defaultConfig, discordClientConfig: ClientOptions) {
+    constructor(config?: BotConfig, discordClientConfig?: ClientOptions) {
         super(discordClientConfig);
 
         const defaultConfig: DeepRequired<BotConfig> = {
@@ -19,8 +19,7 @@ export class Bot extends Client {
         };
 
         this.config = Object.assign({}, defaultConfig, config);
-
-        this.on('message', this.handleMessage.bind(this))
+        this.on('message', this.handleMessage.bind(this));
     }
 
     private handleMessage(message: Message) {
@@ -28,7 +27,7 @@ export class Bot extends Client {
             const parser = new Parser(message.content);
 
             if (parser.getCommandName() === command.name) {
-                if (parser.getArgsCount() >= command.requiredArgCount - 1) {
+                if (!command.requiredArgCount || parser.getArgsCount() >= command.requiredArgCount) {
                     command.action(message, parser.getArgs());
                     return true;
                 }
@@ -43,12 +42,12 @@ export class Bot extends Client {
         return this;
     }
 
-    start(callback? : () => {}): Bot {
+    start(callback?: () => void): Promise<string> {
         if (callback) {
             this.on('ready', callback);
         }
-        this.login(this.config.token).catch(e => {throw e});
-        return this;
+
+        return this.login(this.config.token);
     }
 
 }
