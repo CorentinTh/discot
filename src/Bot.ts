@@ -4,12 +4,8 @@ import {Command} from "./Command";
 import {Parser} from "./Parser";
 
 type BotConfig = {
-    token: string
+    token?: string,
 }
-
-const defaultConfig: DeepRequired<BotConfig> = {
-    token: process.env.DISCORD_TOKEN ?? ''
-};
 
 export class Bot extends Client {
     config: DeepRequired<BotConfig>;
@@ -17,6 +13,11 @@ export class Bot extends Client {
 
     constructor(config: BotConfig = defaultConfig, discordClientConfig: ClientOptions) {
         super(discordClientConfig);
+
+        const defaultConfig: DeepRequired<BotConfig> = {
+            token: process.env.DISCORD_TOKEN ?? ''
+        };
+
         this.config = Object.assign({}, defaultConfig, config);
 
         this.on('message', this.handleMessage.bind(this))
