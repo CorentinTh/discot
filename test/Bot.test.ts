@@ -1,5 +1,6 @@
 import {Bot} from "../src";
 import {mocked} from 'ts-jest/utils'
+import fn = jest.fn;
 
 jest.mock('discord.js');
 // mocked(Bot.prototype.login).mockImplementation((token?: string) => Promise.resolve(''));
@@ -102,5 +103,43 @@ it('should not trigger command with incorrect arg count', () => {
 
     bot.emit('message', {content: 'ping'});
     expect(action).not.toHaveBeenCalled();
+});
+
+it('should not trigger command with incorrect arg count and respond with a fail message', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: 'ping',
+        description: '',
+        requiredArgCount:1
+    }).start();
+
+    const message = {content: '!ping', channel: {send: jest.fn()}};
+    bot.emit('message', message);
+    expect(action).not.toHaveBeenCalled();
+    expect(message.channel.send).toHaveBeenCalledWith(`Invalid arguments. The command "ping" requires 1 arguments.`);
+});
+
+it('should send help message for help command', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: 'ping',
+        description: 'The ping command',
+        requiredArgCount:1
+    }).start();
+
+    const message = {content: '!help', channel: {send: jest.fn()}};
+    bot.emit('message', message);
+    expect(action).not.toHaveBeenCalled();
+    expect(message.channel.send).toHaveBeenCalledWith('Available commands:\n\n' +
+        '!help          Print this help message\n' +
+        '!ping          The ping command');
 });
 
