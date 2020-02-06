@@ -1,5 +1,5 @@
 # discot
-![Node CI](https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg)
+[![Node CI](https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg)](https://github.com/CorentinTh/discot/actions)
 
 Create simple, yet powerful discord bots focusing on commands.
 
