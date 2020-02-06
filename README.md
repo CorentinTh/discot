@@ -1,4 +1,6 @@
 # discot
+![Node CI](https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg)
+
 Create simple, yet powerful discord bots focusing on commands.
 
 ## What is it ?
