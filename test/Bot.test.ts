@@ -52,11 +52,28 @@ it('should trigger command', () => {
         requiredArgCount:0
     }).start();
 
-    bot.emit('message', {content: 'ping'});
+    bot.emit('message', {content: '!ping'});
     expect(action).toHaveBeenCalled();
 });
 
-it('should no trigger command with incorrect command name', () => {
+
+it('should trigger command with different prefix', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token, prefix:'-'});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: 'ping',
+        description: '',
+        requiredArgCount:0
+    }).start();
+
+    bot.emit('message', {content: '-ping'});
+    expect(action).toHaveBeenCalled();
+});
+
+it('should not trigger command with incorrect command name', () => {
     const bot = new Bot();
     const action = jest.fn();
 
@@ -71,7 +88,7 @@ it('should no trigger command with incorrect command name', () => {
     expect(action).not.toHaveBeenCalled();
 });
 
-it('should no trigger command with incorrect arg count', () => {
+it('should not trigger command with incorrect arg count', () => {
     const token = 'azertyuioppoiuytreza';
     const bot = new Bot({token});
     const action = jest.fn();

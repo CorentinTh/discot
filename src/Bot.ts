@@ -5,6 +5,7 @@ import {Parser} from "./Parser";
 
 type BotConfig = {
     token?: string,
+    prefix?: string
 }
 
 export class Bot extends Client {
@@ -15,7 +16,8 @@ export class Bot extends Client {
         super(discordClientConfig);
 
         const defaultConfig: DeepRequired<BotConfig> = {
-            token: process.env.DISCORD_TOKEN ?? ''
+            token: process.env.DISCORD_TOKEN ?? '',
+            prefix: '!'
         };
 
         this.config = Object.assign({}, defaultConfig, config);
@@ -26,7 +28,7 @@ export class Bot extends Client {
         this.commands.some(command => {
             const parser = new Parser(message.content);
 
-            if (parser.getCommandName() === command.name) {
+            if (parser.getCommandName() === `${this.config.prefix}${command.name}`) {
                 if (!command.requiredArgCount || parser.getArgsCount() >= command.requiredArgCount) {
                     command.action(message, parser.getArgs());
                     return true;
