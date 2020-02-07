@@ -20,11 +20,6 @@ yarn add discot
 ```
 ### Example
 ```javascript
-const token = 'your_token';
-const bot = new Bot({token});
-```
-Or, using environnment variable:
-```javascript
 const bot = new Bot({
     token: 'discord_token', // default value: process.env.DISCORD_TOKEN
     prefix: '!'             // default value: '!'
