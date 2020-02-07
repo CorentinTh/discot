@@ -42,9 +42,36 @@ bot.addCommand({
     .start(() => console.log('Bot started.'));
 ```
 
+![discord-example](.github/discord-example.png)
+
 `message` in the `action` method for a command is the object from [discord.js](https://discord.js.org/#/docs/main/stable/class/Message) 
 
 ### API
+#### Bot constructor
+```javascript
+const bot = new Bot({
+    token: 'discord_token', // default value: process.env.DISCORD_TOKEN
+    prefix: '!'             // default value: '!'
+});
+```
+Set your discord token in the env variable **DISCORD_TOKEN** (use [dotenv](https://www.npmjs.com/package/dotenv)).
+
+#### bot.addCommand(command)
+```javascript
+bot.addCommand({
+    name: 'ping',              // name of the command, the one to type
+    description: 'Reply pong', // description displayed in the help message
+    action: message => message.channel.send('pong'), // action to execute when the command is triggered
+    requiredArgCount: 1        // amount of required parameters for the command for validation
+})                             
+```
+`message` in the `action` method for a command is the object from [discord.js](https://discord.js.org/#/docs/main/stable/class/Message) 
+
+#### bot.start(callback?)
+```javascript
+bot.start(() => console.log('Bot started.'))
+```
+The callback is triggered when the bot is started.
 
 ## Contribute
 **Pull requests are welcome !** Feel free to contribute.
