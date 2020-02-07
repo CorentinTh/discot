@@ -51,9 +51,12 @@ export class Bot extends Client {
     }
 
     private sendHelpCommand(message: Message): void {
-        const spacePaddingLength = 14;
-        let helpMessage = 'Available commands:\n\n';
+        const spacePaddingLength = 9;
+        let helpMessage = '```';
+        helpMessage += 'Available commands:\n\n';
         helpMessage += this.commands.map(command => `${this.config.prefix}${command.name}${' '.repeat(spacePaddingLength - command.name.length)}${command.description}`).join('\n');
+        helpMessage += '```';
+
         Bot.replyToMessage(message, helpMessage);
     }
 
