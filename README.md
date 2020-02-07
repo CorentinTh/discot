@@ -6,11 +6,7 @@ Create simple, yet powerful discord bots focusing on commands.
 
 ## What is it ?
 **Discot** is a wrapper around [discord.js](https://discord.js.org/) to simplify the creation of server bots. It permists to focus on the creation of commands instead of spending time working with discord's API.
-<!--
-## Create your bot
-### 1. Discord token
-First, you'll need a bot token. To do so, you'll need to create a discord application **[here](https://discordapp.com/developers/applications/)**. 
--->
+
 ## Usage
 ### Installation
 **Discot** can be installed using yarn or npm.
@@ -21,17 +17,32 @@ npm install discot
 yarn add discot
 ```
 ### Example
-#### Setting the token:
 ```javascript
 const token = 'your_token';
 const bot = new Bot({token});
 ```
 Or, using environnment variable:
 ```javascript
-process.env.DISCORD_TOKEN = 'your_token'; // prefer using 'dotenv', don't set your env inside the program
+const bot = new Bot({
+    token: 'discord_token', // default value: process.env.DISCORD_TOKEN
+    prefix: '!'             // default value: '!'
+});
 
-const bot = new Bot();
+bot.addCommand({
+        name: 'ping',
+        description: 'Reply pong',
+        action: message => message.channel.send('pong')
+    })
+    .addCommand({
+        name: 'say',
+        description: 'Send the text passed as first argument. Usage: "!say hello"',
+        action: (message, args) => message.channel.send(args[0]),
+        requiredArgCount: 0
+    })
+    .start(() => console.log('Bot started.'));
 ```
+
+`message` in the `action` method for a command is the object from [discord.js](https://discord.js.org/#/docs/main/stable/class/Message) 
 
 ### API
 
