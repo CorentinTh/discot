@@ -2,6 +2,9 @@
 
 <p align="center">
     <a href="https://github.com/CorentinTh/discot/actions"><img src="https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg" alt="Node CI"></a>
+    <a href="https://www.npmjs.com/package/discot"><img alt="npm" src="https://img.shields.io/npm/v/discot"></a>
+    <a href="https://www.npmjs.com/package/discot"><img alt="npm" src="https://img.shields.io/npm/dw/discot"></a>
+    <a href="LICENSE"><img alt="NPM" src="https://img.shields.io/npm/l/discot"></a>
 </p>
 
 Create simple, yet powerful discord bots focusing on commands.
