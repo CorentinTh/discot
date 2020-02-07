@@ -1,7 +1,10 @@
 import {Client, ClientOptions, Message} from 'discord.js';
-import {DeepRequired} from "./helpers";
 import {Command} from "./Command";
 import {Parser} from "./Parser";
+
+type DeepRequired<T> = {
+    [P in keyof Required<T>]: T[P] extends object ? DeepRequired<T[P]> : NonNullable<Required<T[P]>>
+}
 
 type BotConfig = {
     token?: string;
