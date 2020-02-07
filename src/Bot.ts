@@ -4,8 +4,8 @@ import {Command} from "./Command";
 import {Parser} from "./Parser";
 
 type BotConfig = {
-    token?: string,
-    prefix?: string
+    token?: string;
+    prefix?: string;
 }
 
 export class Bot extends Client {
@@ -31,8 +31,8 @@ export class Bot extends Client {
         this.on('message', this.handleMessage.bind(this));
     }
 
-    private handleMessage(message: Message) {
-        this.commands.some(command => {
+    private handleMessage(message: Message): boolean {
+        return this.commands.some(command => {
             const parser = new Parser(message.content);
 
             if (parser.getCommandName() === `${this.config.prefix}${command.name}`) {
@@ -47,14 +47,14 @@ export class Bot extends Client {
         });
     }
 
-    private sendHelpCommand(message: Message) {
+    private sendHelpCommand(message: Message): void {
         const spacePaddingLength = 14;
         let helpMessage = 'Available commands:\n\n';
         helpMessage += this.commands.map(command => `${this.config.prefix}${command.name}${' '.repeat(spacePaddingLength - command.name.length)}${command.description}`).join('\n');
         Bot.replyToMessage(message, helpMessage);
     }
 
-    private static replyToMessage(message: Message, content: string): Promise<any> {
+    private static replyToMessage(message: Message, content: string): Promise<Message | Message[]> {
         return message.channel.send(content)
     }
 
