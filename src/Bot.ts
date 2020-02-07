@@ -4,7 +4,8 @@ import {Command} from "./Command";
 import {Parser} from "./Parser";
 
 type BotConfig = {
-    token?: string,
+    token?: string;
+    prefix?: string;
 }
 
 export class Bot extends Client {
@@ -15,26 +16,46 @@ export class Bot extends Client {
         super(discordClientConfig);
 
         const defaultConfig: DeepRequired<BotConfig> = {
-            token: process.env.DISCORD_TOKEN ?? ''
+            token: process.env.DISCORD_TOKEN ?? '',
+            prefix: '!'
         };
+
+        this.addCommand({
+            name: 'help',
+            description: 'Print this help message',
+            action: this.sendHelpCommand.bind(this),
+            requiredArgCount: 0
+        });
 
         this.config = Object.assign({}, defaultConfig, config);
         this.on('message', this.handleMessage.bind(this));
     }
 
-    private handleMessage(message: Message) {
-        this.commands.some(command => {
+    private handleMessage(message: Message): boolean {
+        return this.commands.some(command => {
             const parser = new Parser(message.content);
 
-            if (parser.getCommandName() === command.name) {
+            if (parser.getCommandName() === `${this.config.prefix}${command.name}`) {
                 if (!command.requiredArgCount || parser.getArgsCount() >= command.requiredArgCount) {
                     command.action(message, parser.getArgs());
-                    return true;
+                } else {
+                    Bot.replyToMessage(message, `Invalid arguments. The command "${command.name}" requires ${command.requiredArgCount} arguments.`);
                 }
                 return true;
             }
             return false;
         });
+    }
+
+    private sendHelpCommand(message: Message): void {
+        const spacePaddingLength = 14;
+        let helpMessage = 'Available commands:\n\n';
+        helpMessage += this.commands.map(command => `${this.config.prefix}${command.name}${' '.repeat(spacePaddingLength - command.name.length)}${command.description}`).join('\n');
+        Bot.replyToMessage(message, helpMessage);
+    }
+
+    private static replyToMessage(message: Message, content: string): Promise<Message | Message[]> {
+        return message.channel.send(content)
     }
 
     addCommand(command: Command): Bot {
