@@ -138,8 +138,10 @@ it('should send help message for help command', () => {
     const message = {content: '!help', channel: {send: jest.fn()}};
     bot.emit('message', message);
     expect(action).not.toHaveBeenCalled();
-    expect(message.channel.send).toHaveBeenCalledWith('Available commands:\n\n' +
-        '!help          Print this help message\n' +
-        '!ping          The ping command');
+    expect(message.channel.send).toHaveBeenCalledWith('```' +
+        'Available commands:\n\n' +
+        '!help     Print this help message\n' +
+        '!ping     The ping command' +
+        '```');
 });
 
