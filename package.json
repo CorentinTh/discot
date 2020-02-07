@@ -1,6 +1,6 @@
 {
   "name": "discot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple discord bot creation framework.",
   "main": "dist/index.js",
   "scripts": {
