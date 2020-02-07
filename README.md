@@ -1,6 +1,8 @@
 ![discot-logo](./.github/discot-logo.png)
 
-[![Node CI](https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg)](https://github.com/CorentinTh/discot/actions)
+<p align="center">
+    <a href="https://github.com/CorentinTh/discot/actions"><img src="https://github.com/CorentinTh/discot/workflows/Node%20CI/badge.svg" alt="Node CI"></a>
+</p>
 
 Create simple, yet powerful discord bots focusing on commands.
 
