@@ -1,16 +1,23 @@
 export class Parser {
-    private readonly splitMessage: string[];
+    private readonly splitMessage: string[] = [];
 
     constructor(message: string) {
-        this.splitMessage = message.trim().split(/\s+/);
+        message
+            .trim()
+            .match(/"[^"]+"|[\S]+/g)
+            ?.forEach(element => {
+                if (element) {
+                    this.splitMessage.push(element.replace(/"/g, ''));
+                }
+            });
     }
 
-    getCommandName(): string|undefined {
-        return this.splitMessage[0].length > 0 ? this.splitMessage[0] : undefined;
+    getCommandName(): string | undefined {
+        return this.splitMessage.length > 0 ? this.splitMessage[0] : undefined;
     }
 
     getArgsCount(): number {
-        return this.splitMessage.length - 1;
+        return this.splitMessage.length > 0 ? this.splitMessage.length - 1 : 0;
     }
 
     getArgs(): string[] {
@@ -18,4 +25,3 @@ export class Parser {
     }
 
 }
-

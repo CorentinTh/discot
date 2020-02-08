@@ -20,6 +20,15 @@ it('should get args', () => {
     expect(parser.getArgs()).not.toEqual([]);
 });
 
+it('should handle command with quotes', () => {
+    const parser = new Parser('hello "John Doe" "Jane"');
+
+    expect(parser.getArgs()).toHaveLength(2);
+    expect(parser.getArgs()).toEqual(['John Doe', 'Jane']);
+    expect(parser.getArgsCount()).toBe(2);
+    expect(parser.getCommandName()).toBe('hello');
+});
+
 it('should handle empty command', () => {
     const parser = new Parser('');
 
