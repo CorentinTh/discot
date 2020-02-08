@@ -1,6 +1,6 @@
 {
   "name": "discot",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Simple discord bot creation framework.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,8 +14,18 @@
     "type": "git",
     "url": "git+https://github.com/CorentinTh/discot.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "discord",
+    "bot",
+    "framework",
+    "automation",
+    "robot"
+  ],
+  "author": {
+    "email": "contact@corentin-thomasset.fr",
+    "name": "Corentin Thomasset",
+    "url": "corentin-thomasset.fr"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CorentinTh/discot/issues"
