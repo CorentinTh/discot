@@ -14,8 +14,18 @@
     "type": "git",
     "url": "git+https://github.com/CorentinTh/discot.git"
   },
-  "keywords": ["discord", "bot", "framework", "automation", "robot"],
-  "author": "",
+  "keywords": [
+    "discord",
+    "bot",
+    "framework",
+    "automation",
+    "robot"
+  ],
+  "author": {
+    "email": "contact@corentin-thomasset.fr",
+    "name": "Corentin Thomasset",
+    "url": "corentin-thomasset.fr"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CorentinTh/discot/issues"
