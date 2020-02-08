@@ -35,6 +35,8 @@ export class Bot extends Client {
     }
 
     private handleMessage(message: Message): boolean {
+        if(this.user.id === message.author.id) return false;
+
         return this.commands.some(command => {
             const parser = new Parser(message.content);
 
