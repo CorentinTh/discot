@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/CorentinTh/discot.git"
   },
-  "keywords": [],
+  "keywords": ["discord", "bot", "framework", "automation", "robot"],
   "author": "",
   "license": "MIT",
   "bugs": {
