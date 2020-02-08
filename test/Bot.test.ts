@@ -1,9 +1,12 @@
 import {Bot} from "../src";
-import {mocked} from 'ts-jest/utils'
-import fn = jest.fn;
 
 jest.mock('discord.js');
-// mocked(Bot.prototype.login).mockImplementation((token?: string) => Promise.resolve(''));
+
+const createMessage = (content: string, id:string = 'not-bot-id') => Object.assign({}, {
+    author: {id},
+    channel: {send: jest.fn()},
+    content:''
+}, {content});
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -50,27 +53,27 @@ it('should trigger command', () => {
         action,
         name: 'ping',
         description: '',
-        requiredArgCount:0
+        requiredArgCount: 0
     }).start();
 
-    bot.emit('message', {content: '!ping'});
+    bot.emit('message', createMessage('!ping'));
     expect(action).toHaveBeenCalled();
 });
 
 
 it('should trigger command with different prefix', () => {
     const token = 'azertyuioppoiuytreza';
-    const bot = new Bot({token, prefix:'-'});
+    const bot = new Bot({token, prefix: '-'});
     const action = jest.fn();
 
     bot.addCommand({
         action,
         name: 'ping',
         description: '',
-        requiredArgCount:0
+        requiredArgCount: 0
     }).start();
 
-    bot.emit('message', {content: '-ping'});
+    bot.emit('message', createMessage('-ping'));
     expect(action).toHaveBeenCalled();
 });
 
@@ -82,10 +85,10 @@ it('should not trigger command with incorrect command name', () => {
         action,
         name: 'ping',
         description: '',
-        requiredArgCount:0
+        requiredArgCount: 0
     }).start();
 
-    bot.emit('message', {content: 'notping'});
+    bot.emit('message', createMessage('notping'));
     expect(action).not.toHaveBeenCalled();
 });
 
@@ -98,10 +101,26 @@ it('should not trigger command with incorrect arg count', () => {
         action,
         name: 'ping',
         description: '',
-        requiredArgCount:1
+        requiredArgCount: 1
     }).start();
 
-    bot.emit('message', {content: 'ping'});
+    bot.emit('message', createMessage('!ping'));
+    expect(action).not.toHaveBeenCalled();
+});
+
+it('should not trigger command with same user id', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: 'ping',
+        description: '',
+        requiredArgCount: 1
+    }).start();
+
+    bot.emit('message', createMessage('!ping', 'bot-id'));
     expect(action).not.toHaveBeenCalled();
 });
 
@@ -114,10 +133,10 @@ it('should not trigger command with incorrect arg count and respond with a fail 
         action,
         name: 'ping',
         description: '',
-        requiredArgCount:1
+        requiredArgCount: 1
     }).start();
 
-    const message = {content: '!ping', channel: {send: jest.fn()}};
+    const message = createMessage('!ping');
     bot.emit('message', message);
     expect(action).not.toHaveBeenCalled();
     expect(message.channel.send).toHaveBeenCalledWith(`Invalid arguments. The command "ping" requires 1 arguments.`);
@@ -132,10 +151,10 @@ it('should send help message for help command', () => {
         action,
         name: 'ping',
         description: 'The ping command',
-        requiredArgCount:1
+        requiredArgCount: 1
     }).start();
 
-    const message = {content: '!help', channel: {send: jest.fn()}};
+    const message = createMessage('!help');
     bot.emit('message', message);
     expect(action).not.toHaveBeenCalled();
     expect(message.channel.send).toHaveBeenCalledWith('```' +
