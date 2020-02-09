@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added author in [package.json](package.json)
 - Added keywords in [package.json](package.json)
 
+### Next
+#### Added
+- Usage in command object for help message
+
+#### Changed
+- Command name can start with prefix or not. For example, with prefix `!`, command name can be `ping` or `!ping`
+
 ### 1.1.2
 ### Changed
 - The `args` parameter in the `action` function in commands is now always set. 
