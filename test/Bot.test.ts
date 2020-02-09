@@ -151,6 +151,7 @@ it('should send help message for help command', () => {
         action,
         name: 'ping',
         description: 'The ping command',
+        usage:'!ping',
         requiredArgCount: 1
     }).start();
 
@@ -159,8 +160,9 @@ it('should send help message for help command', () => {
     expect(action).not.toHaveBeenCalled();
     expect(message.channel.send).toHaveBeenCalledWith('```' +
         'Available commands:\n\n' +
-        '!help     Print this help message\n' +
-        '!ping     The ping command' +
+        '!help    Print this help message\n' +
+        '!ping    The ping command\n' +
+        '         Usage: !ping' +
         '```');
 });
 
