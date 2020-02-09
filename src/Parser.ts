@@ -6,9 +6,7 @@ export class Parser {
             .trim()
             .match(/"[^"]+"|[\S]+/g)
             ?.forEach(element => {
-                if (element) {
-                    this.splitMessage.push(element.replace(/"/g, ''));
-                }
+                this.splitMessage.push(element.replace(/"/g, ''));
             });
     }
 
