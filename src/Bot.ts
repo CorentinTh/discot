@@ -23,6 +23,8 @@ export class Bot extends Client {
             prefix: '!'
         };
 
+        this.config = Object.assign({}, defaultConfig, config);
+
         this.addCommand({
             name: 'help',
             description: 'Print this help message',
@@ -30,7 +32,6 @@ export class Bot extends Client {
             requiredArgCount: 0
         });
 
-        this.config = Object.assign({}, defaultConfig, config);
         this.on('message', this.handleMessage.bind(this));
     }
 
@@ -40,7 +41,7 @@ export class Bot extends Client {
         return this.commands.some(command => {
             const parser = new Parser(message.content);
 
-            if (parser.getCommandName() === `${this.config.prefix}${command.name}`) {
+            if (parser.getCommandName() === command.name) {
                 if (!command.requiredArgCount || parser.getArgsCount() >= command.requiredArgCount) {
                     command.action(message, parser.getArgs());
                 } else {
@@ -57,10 +58,9 @@ export class Bot extends Client {
         let helpMessage = '```';
         helpMessage += 'Available commands:\n\n';
         helpMessage += this.commands.map(command => {
-            const name = command.name.startsWith(this.config.prefix) ? command.name : this.config.prefix + command.name;
             let str = '';
-            str += `${name}`;
-            str += `${' '.repeat(spacePaddingLength - name.length)}`;
+            str += `${command.name}`;
+            str += `${' '.repeat(spacePaddingLength - command.name.length)}`;
             str += `${command.description ?? ''}`;
             str += command.usage ? `\n${' '.repeat(spacePaddingLength)}Usage: ${command.usage}` : '';
             return str;
@@ -75,6 +75,10 @@ export class Bot extends Client {
     }
 
     addCommand(command: Command): Bot {
+        if(!command.name.startsWith(this.config.prefix)){
+            command.name = this.config.prefix + command.name
+        }
+
         this.commands.push(command);
         return this;
     }
