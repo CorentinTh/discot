@@ -60,6 +60,22 @@ it('should trigger command', () => {
     expect(action).toHaveBeenCalled();
 });
 
+it('should trigger command with prefix in name', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: '!ping',
+        description: '',
+        requiredArgCount: 0
+    }).start();
+
+    bot.emit('message', createMessage('!ping'));
+    expect(action).toHaveBeenCalled();
+});
+
 
 it('should trigger command with different prefix', () => {
     const token = 'azertyuioppoiuytreza';
@@ -139,7 +155,7 @@ it('should not trigger command with incorrect arg count and respond with a fail 
     const message = createMessage('!ping');
     bot.emit('message', message);
     expect(action).not.toHaveBeenCalled();
-    expect(message.channel.send).toHaveBeenCalledWith(`Invalid arguments. The command "ping" requires 1 arguments.`);
+    expect(message.channel.send).toHaveBeenCalledWith(`Invalid arguments. The command "!ping" requires 1 arguments.`);
 });
 
 it('should send help message for help command', () => {
@@ -151,6 +167,7 @@ it('should send help message for help command', () => {
         action,
         name: 'ping',
         description: 'The ping command',
+        usage:'!ping',
         requiredArgCount: 1
     }).start();
 
@@ -159,8 +176,30 @@ it('should send help message for help command', () => {
     expect(action).not.toHaveBeenCalled();
     expect(message.channel.send).toHaveBeenCalledWith('```' +
         'Available commands:\n\n' +
-        '!help     Print this help message\n' +
-        '!ping     The ping command' +
+        '!help    Print this help message\n' +
+        '!ping    The ping command\n' +
+        '         Usage: !ping' +
+        '```');
+});
+
+it('should send help message for help command with command without description', () => {
+    const token = 'azertyuioppoiuytreza';
+    const bot = new Bot({token});
+    const action = jest.fn();
+
+    bot.addCommand({
+        action,
+        name: 'ping',
+        requiredArgCount: 1
+    }).start();
+
+    const message = createMessage('!help');
+    bot.emit('message', message);
+    expect(action).not.toHaveBeenCalled();
+    expect(message.channel.send).toHaveBeenCalledWith('```' +
+        'Available commands:\n\n' +
+        '!help    Print this help message\n' +
+        '!ping    ' +
         '```');
 });
 
