@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Next
 #### Added
 - Usage in command object for help message
+- Promise based commands (async functions)
 
 #### Changed
 - Command name can start with prefix or not. For example, with prefix `!`, command name can be `ping` or `!ping`
